@@ -81,7 +81,7 @@
     },
     "appointment_booking": {
         "details": "Appointments can be booked via our website. Visit the following link to schedule your appointment:",
-        "booking_url": "https://calendly.com/shabnamkaur460/amber-salon"
+        "booking_url": "https://calendly.com/dharmpreetinsan-techebiz/amber-salon/"
     },
     "branches": [
         {
@@ -104,6 +104,43 @@
             "phone": "+1-234-567-8930",
             "email": "valleyview@ambersalon.com",
             "website": "https://valleyview.ambersalon.com"
+        }
+    ],
+    "nearbyshops": [
+        {
+            "name": "Luxe Salon - City Center",
+            "address": "101 Heritage Road, Kamloops, BC, Canada",
+            "phone": "+1-555-123-4567",
+            "email": "info@luxecitycenter.com",
+            "website": "https://luxecitycenter.com"
+        },
+        {
+            "name": "Glow Studio - Pineview Heights",
+            "address": "78 Highland Avenue, Kamloops, BC, Canada",
+            "phone": "+1-555-987-6543",
+            "email": "contact@glowpineview.com",
+            "website": "https://glowpineview.com"
+        },
+        {
+            "name": "Radiance Beauty Bar - Crestwood",
+            "address": "204 Maple Lane, Kamloops, BC, Canada",
+            "phone": "+1-555-246-8100",
+            "email": "support@radiancecrestwood.com",
+            "website": "https://radiancecrestwood.com"
+        },
+        {
+            "name": "Serenity Spa - Sun Rivers",
+            "address": "12 Desert Ridge Boulevard, Kamloops, BC, Canada",
+            "phone": "+1-555-654-3210",
+            "email": "hello@serenitysunrivers.com",
+            "website": "https://serenitysunrivers.com"
+        },
+        {
+            "name": "Bliss Retreat - Brocklehurst",
+            "address": "77 Valley Crescent, Kamloops, BC, Canada",
+            "phone": "+1-555-741-8523",
+            "email": "inquiries@blissbrocklehurst.com",
+            "website": "https://blissbrocklehurst.com"
         }
     ]
 }
