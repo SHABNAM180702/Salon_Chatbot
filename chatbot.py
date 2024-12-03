@@ -46,24 +46,21 @@ def record_audio_to_text():
         message_placeholder = st.empty()
         message_placeholder.info("Listening... Speak now!")
         try:
-            # Increase timeout and add a phrase_time_limit
-            audio_data = recognizer.listen(source, timeout=10, phrase_time_limit=15)
+            audio_data = recognizer.listen(source, timeout=5)
             message_placeholder.empty()  # Remove the "Listening..." message
             return recognizer.recognize_google(audio_data)
-        except sr.WaitTimeoutError:
-            message_placeholder.empty()
-            st.error("Listening timed out. Please speak louder or check your microphone settings.")
         except sr.UnknownValueError:
-            message_placeholder.empty()
-            st.error("Sorry, could not understand the audio. Please try again.")
+            message_placeholder.empty()  # Remove the message on error
+            st.error("Sorry, could not understand the audio.")
         except sr.RequestError as e:
-            message_placeholder.empty()
+            message_placeholder.empty()  # Remove the message on error
             st.error(f"Could not request results; {e}")
         except Exception as e:
-            message_placeholder.empty()
+            message_placeholder.empty()  # Remove the message on error
             st.error(f"An error occurred: {e}")
         return ""
 
+    
 # App title
 st.title("💇‍♀️ Amber Salon - ChatBot")
 
@@ -98,48 +95,18 @@ working_hours = salon_details.get("working_hours", {})
 faqs = salon_details.get("faqs", {})
 appointment_booking = salon_details.get("appointment_booking", {})
 branches = salon_details.get("branches", [])
-nearby_shops = salon_details.get("nearbyshops", [])
-
-def get_nearby_shops():
-    """Return formatted details of nearby shops."""
-    if not nearby_shops:
-        return "Sorry, no nearby shop information is available at the moment."
-    response = "Here are some nearby shops:\n"
-    for shop in nearby_shops:
-        response += (
-            f"- **{shop['name']}**\n"
-            f"  - **Address:** {shop['address']}\n"
-            f"  - **Phone:** {shop['phone']}\n"
-            f"  - **Email:** {shop['email']}\n"
-            f"  - **Website:** [Visit Website]({shop['website']})\n\n"
-        )
-    return response
-
 
 # Function to handle specific keywords or phrases
 def handle_specific_queries(user_input):
     user_input = user_input.lower()
 
-      # Check for greetings
-    if any(keyword in user_input for keyword in ["hi", "hello", "hey", "greetings", "good morning", "good afternoon", "good evening"]):
-        return "Hello and welcome to Amber Salon! 😊 We're delighted to have you here. Whether you're looking for information about our services, need assistance with bookings, or have any specific questions, I'm here to help. How can I assist you today?"
-
+    # Check for the chatbot's name
     if "your name" in user_input or "who are you" in user_input:
         return "My name is Shabnam, your friendly salon assistant! 😊"
 
     # Check for payment methods
     elif "payment method" in user_input or "accept payment" in user_input:
         return "We accept all types of credit and debit cards."
-    
-     # Check for nearby shops
-    elif any(keyword in user_input for keyword in ["nearby shop", "nearby store", "other salons", "near by me", "near"]):
-        return get_nearby_shops()
-    
-    elif any(keyword in user_input for keyword in ["food", "coffee", "snacks", "tea", "eatables", "drink", "juice"]):
-        return "Sorry, we do not serve food or beverages at our salon. We focus on providing beauty and wellness services. Thank you for understanding!"
-
-    elif any(symbol in user_input for symbol in ["+", "-", "*", "/", "=", "%", "^"]):
-        return "Invalid query. Please check your question and try again."
 
     # If no specific match, return None
     return None
@@ -154,6 +121,7 @@ with tabs[0]:
     col1, col2, col3, col4, col5 = st.columns([2, 2, 2, 2, 2])  # Adjust ratios to control button widths and spacing
 
     # Button Presses with Automated Responses (independent `if` conditions)
+
     if col1.button("💇‍♀️ What services do you provide?"):
         user_prompt = "What type of services do you offer?"
         st.session_state.chat_history.append({"role": "user", "content": user_prompt})
@@ -168,7 +136,7 @@ with tabs[0]:
         user_prompt = "I want to book an appointment."
         st.session_state.chat_history.append({"role": "user", "content": user_prompt})
 
-        assistant_response = f"Sure! To book your haircut appointment, please visit our website at {appointment_booking.get('booking_url', 'N/A')}."
+        assistant_response = f"Sure! To book your appointment, please visit our website at {appointment_booking.get('booking_url', 'N/A')}."
         st.markdown("<script>scrollToInput();</script>", unsafe_allow_html=True)
         st.session_state.chat_history.append({"role": "assistant", "content": assistant_response})
 
@@ -440,7 +408,7 @@ if user_prompt:
             elif "faq" in user_prompt.lower():
                 assistant_response = "Here are some common questions:\n" + "\n".join(f"- {q}: {a}" for q, a in salon_details["faqs"].items())
             elif "book appointment" in user_prompt.lower() or "appointment" in user_prompt.lower():
-                assistant_response = f"Sure! To book your haircut appointment, please visit our website at {appointment_booking.get('booking_url', 'N/A')}."
+                assistant_response = f"Sure! To book your appointment, please visit our website at {appointment_booking.get('booking_url', 'N/A')}."
             elif "nail shape" in user_prompt.lower() or "nail" in user_prompt.lower():
                 nail_shapes = salon_details["services_offered"]["women"]["other_services"]["Manicure"]["nail_shapes"]
                 assistant_response = "Here are the nail shapes we offer:\n" + "\n".join(f"- {shape}" for shape in nail_shapes)
