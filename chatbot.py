@@ -96,17 +96,45 @@ faqs = salon_details.get("faqs", {})
 appointment_booking = salon_details.get("appointment_booking", {})
 branches = salon_details.get("branches", [])
 
+def get_nearby_shops():
+    """Return formatted details of nearby shops."""
+    if not nearby_shops:
+        return "Sorry, no nearby shop information is available at the moment."
+    response = "Here are some nearby shops:\n"
+    for shop in nearby_shops:
+        response += (
+            f"- **{shop['name']}**\n"
+            f"  - **Address:** {shop['address']}\n"
+            f"  - **Phone:** {shop['phone']}\n"
+            f"  - **Email:** {shop['email']}\n"
+            f"  - **Website:** [Visit Website]({shop['website']})\n\n"
+        )
+    return response
+
 # Function to handle specific keywords or phrases
 def handle_specific_queries(user_input):
     user_input = user_input.lower()
 
-    # Check for the chatbot's name
+      # Check for greetings
+    if any(keyword in user_input for keyword in ["hi", "hello", "hey", "greetings", "good morning", "good afternoon", "good evening"]):
+        return "Hello and welcome to Amber Salon! 😊 We're delighted to have you here. Whether you're looking for information about our services, need assistance with bookings, or have any specific questions, I'm here to help. How can I assist you today?"
+
     if "your name" in user_input or "who are you" in user_input:
         return "My name is Shabnam, your friendly salon assistant! 😊"
 
     # Check for payment methods
     elif "payment method" in user_input or "accept payment" in user_input:
         return "We accept all types of credit and debit cards."
+    
+     # Check for nearby shops
+    elif any(keyword in user_input for keyword in ["nearby shop", "nearby store", "other salons", "near by me", "near"]):
+        return get_nearby_shops()
+    
+    elif any(keyword in user_input for keyword in ["food", "coffee", "snacks", "tea", "eatables", "drink", "juice"]):
+        return "Sorry, we do not serve food or beverages at our salon. We focus on providing beauty and wellness services. Thank you for understanding!"
+
+    elif any(symbol in user_input for symbol in ["+", "-", "*", "/", "=", "%", "^"]):
+        return "Invalid query. Please check your question and try again."
 
     # If no specific match, return None
     return None
