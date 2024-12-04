@@ -95,6 +95,8 @@ working_hours = salon_details.get("working_hours", {})
 faqs = salon_details.get("faqs", {})
 appointment_booking = salon_details.get("appointment_booking", {})
 branches = salon_details.get("branches", [])
+nearby_shops = salon_details.get("nearbyshops", [])
+
 
 def get_nearby_shops():
     """Return formatted details of nearby shops."""
